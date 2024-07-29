@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GrammarLlama.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="apiendpoint" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://localhost:11434/api/generate</Value>
+    </Setting>
+    <Setting Name="model" Type="System.String" Scope="User">
+      <Value Profile="(Default)">llama3.1</Value>
+    </Setting>
+    <Setting Name="isDarkTheme" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="system" Type="System.String" Scope="User">
+      <Value Profile="(Default)">You are a grammar and spelling corrector. Your goal is to correct any text presented by the user.</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
