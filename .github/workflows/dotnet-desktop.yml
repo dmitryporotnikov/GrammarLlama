@@ -13,7 +13,7 @@ jobs:
     env:
       Solution_Name: GrammarLlama.sln
       Project_Path: GrammarLlama/GrammarLlama.csproj
-
+      Project_Name: GrammarLlama
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -35,8 +35,30 @@ jobs:
     - name: Publish
       run: dotnet publish ${{ env.Project_Path }} -c Release -o publish --self-contained true -r win-x64 /p:PublishSingleFile=true
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.5
       with:
-        name: WPF-App
-        path: publish
+        type: 'zip'
+        filename: '${{ env.Project_Name }}.zip'
+        directory: publish
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release ${{ github.run_number }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./publish/${{ env.Project_Name }}.zip
+        asset_name: ${{ env.Project_Name }}.zip
+        asset_content_type: application/zip
