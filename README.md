@@ -1,3 +1,4 @@
+![image](GrammarLlama/Resources/llama_banner.jpg)
 # GrammarLlama
 
 GrammarLlama is a .NET 8 desktop application that provides real-time grammar and spelling corrections using **locally running** AI language models. It serves as a custom frontend for Ollama, leveraging the power of large language models to enhance writing quality.
