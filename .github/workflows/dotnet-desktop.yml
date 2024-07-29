@@ -1,0 +1,42 @@
+name: .NET 8 WPF Desktop App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    env:
+      Solution_Name: GrammarLlama.sln
+      Project_Path: GrammarLlama/GrammarLlama.csproj
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.Solution_Name }}
+
+    - name: Build
+      run: dotnet build ${{ env.Solution_Name }} --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test ${{ env.Solution_Name }} --no-restore --verbosity normal
+
+    - name: Publish
+      run: dotnet publish ${{ env.Project_Path }} -c Release -o publish --self-contained true -r win-x64 /p:PublishSingleFile=true
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: WPF-App
+        path: publish
