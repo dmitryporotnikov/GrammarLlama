@@ -37,6 +37,10 @@ GrammarLlama sends user input to the Ollama API, which processes the text using 
 
 You can customize the Ollama API endpoint and model selection in the application settings. By default, GrammarLlama uses the Llama 3.1 model, but you can experiment with other models compatible with Ollama.
 
+## Screenshots
+![image](GrammarLlama/Resources/screenshot.png)
+![image](GrammarLlama/Resources/screenshot2.png)
+![image](GrammarLlama/Resources/Screenshot3.png)
 
 ## Contributing
 
