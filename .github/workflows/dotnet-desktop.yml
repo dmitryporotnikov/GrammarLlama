@@ -1,10 +1,15 @@
 name: .NET 8 WPF Desktop App
-
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - 'GrammarLlama/Resources/**'
+      - 'README.md'
   pull_request:
     branches: [ "main" ]
+    paths-ignore:
+      - 'GrammarLlama/Resources/**'
+      - 'README.md'
 
 jobs:
   build:
@@ -14,6 +19,7 @@ jobs:
       Solution_Name: GrammarLlama.sln
       Project_Path: GrammarLlama/GrammarLlama.csproj
       Project_Name: GrammarLlama
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
