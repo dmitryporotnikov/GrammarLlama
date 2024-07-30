@@ -69,7 +69,7 @@ namespace GrammarLlama
                     stream = false,
                     options = new
                     {
-                        num_predict = 100
+                        num_predict = -1 // Unlimited response generation
                     },
                     system = _system
                 };
