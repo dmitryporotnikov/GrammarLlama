@@ -16,6 +16,7 @@ namespace GrammarLlama
         private string _apiEndpoint;
         private string _model;
         private string _system;
+        private const int TimeoutSeconds = 300; // 5 minutes timeout
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OllamaApiClient"/> class.
@@ -23,6 +24,7 @@ namespace GrammarLlama
         public OllamaApiClient()
         {
             _httpClient = new HttpClient();
+            _httpClient.Timeout = TimeSpan.FromSeconds(TimeoutSeconds);
         }
 
         /// <summary>
@@ -69,7 +71,7 @@ namespace GrammarLlama
                     stream = false,
                     options = new
                     {
-                        num_predict = -1 // Unlimited response generation
+                        num_predict = -1 // Set to -1 for unlimited token generation
                     },
                     system = _system
                 };
@@ -77,6 +79,12 @@ namespace GrammarLlama
                 var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync(_apiEndpoint, content);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
+                    throw new HttpRequestException("The server returned a 500 Internal Server Error. This might be due to a timeout or server-side issue.");
+                }
+
                 response.EnsureSuccessStatusCode();
 
                 var responseBody = await response.Content.ReadAsStringAsync();
@@ -86,6 +94,10 @@ namespace GrammarLlama
                     throw new InvalidOperationException("The API response does not contain a 'response' field.");
 
                 return jsonResponse["response"].ToString();
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"The request timed out after {TimeoutSeconds} seconds.", ex);
             }
             catch (HttpRequestException ex)
             {
