@@ -108,6 +108,24 @@ namespace GrammarLlama
         }
 
         /// <summary>
+        /// Copies the AI response to the clipboard when the copy button is clicked.
+        /// </summary>
+        private void CopyResponse_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is Message message && !message.IsUser)
+            {
+                try
+                {
+                    Clipboard.SetText(message.Content);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to copy response: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        /// <summary>
         /// Sends the user's message and processes the AI's response.
         /// </summary>
         private async Task SendMessage()
@@ -311,4 +329,6 @@ namespace GrammarLlama
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
+
 }

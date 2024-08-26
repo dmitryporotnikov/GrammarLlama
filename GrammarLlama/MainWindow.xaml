@@ -193,7 +193,6 @@
                     </StackPanel>
                 </Border>
             </Popup>
-
             <!-- Chat messages -->
             <ScrollViewer x:Name="MessageListScrollViewer" Grid.Row="1">
                 <ItemsControl x:Name="MessageList" ItemsSource="{Binding CurrentChat}">
@@ -212,14 +211,38 @@
                                            Margin="{Binding IsUser, Converter={StaticResource BoolToMarginConverter}}"
                                            Width="48" Height="48"/>
                                     <StackPanel>
-                                        <TextBox Text="{Binding Content, Mode=OneWay}" 
-                                                 TextWrapping="Wrap"
-                                                 IsReadOnly="True"
-                                                 BorderThickness="0"
-                                                 Background="Transparent"
-                                                 IsHitTestVisible="True"
-                                                 Focusable="True"
-                                                 Foreground="{Binding IsUser, Converter={StaticResource BoolToForegroundConverter}}"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Text="{Binding Content, Mode=OneWay}" 
+                                                     TextWrapping="Wrap"
+                                                     IsReadOnly="True"
+                                                     BorderThickness="0"
+                                                     Background="Transparent"
+                                                     IsHitTestVisible="True"
+                                                     Focusable="True"
+                                                     Foreground="{Binding IsUser, Converter={StaticResource BoolToForegroundConverter}}"
+                                                     Grid.Column="0"/>
+                                            <Button Content="📋" 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Top" 
+                                                    Margin="5,0,0,0"
+                                                    Click="CopyResponse_Click"
+                                                    Grid.Column="1">
+                                                <Button.Style>
+                                                    <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsUser}" Value="False">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                        </Grid>
                                         <TextBlock Text="{Binding Time}" 
                                                    FontSize="10" 
                                                    HorizontalAlignment="Right"
