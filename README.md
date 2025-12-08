@@ -1,3 +1,5 @@
+## As I moved to running local LLM via LMSTUDIO, this project is now archived 
+
 ![image](GrammarLlama/Resources/llama_banner.jpg)
 # GrammarLlama
 
